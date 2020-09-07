@@ -40,7 +40,8 @@ class Client:
 		'main_image' : '',
 		# 'additional_images' : '',
 		# 'product_params' : '',
-		'product_description': ''
+		'product_description': '',
+		'product_description_short': '',
 	}
 
 	result_file_path = ''
@@ -106,6 +107,11 @@ class Client:
 		container = soup.select('div.descriptions')
 		for block in container:
 			self.parse_description(block=block)
+
+		#! Вызов функции парсинга краткого описания товара
+		container = soup.select('div.card__body')
+		for block in container:
+			self.parse_description_short(block=block)
 
 	# Парсинг категории товара
 	def product_category(self, block):
@@ -240,6 +246,19 @@ class Client:
 		product_description = '{ "content": "%s", "images": [%s] }' % ( re.sub(r'"', '\\"', content), images)
 		self.ParseResult['product_description'] = product_description
 
+	def parse_description_short(self, block):
+		# rows = block.select('div.aa_marketing')
+		# content = ''
+		# for row in rows:
+		# 	content += row.decode_contents()
+
+		content = block.select_one('div.card__text').decode_contents()
+		content = content.replace('\\', '\\\\')
+		content = re.sub(r'\s+', ' ', content)
+
+		product_description_short = '"%s"' % re.sub(r'"', '\\"', content)
+		self.ParseResult['product_description_short'] = product_description_short
+
 	def run(self):
 		logger.debug('='*50)
 		text = self.load_page()
@@ -271,7 +290,7 @@ if __name__ == '__main__':
 	source_file_path = 'products-urls.txt'
 	result_file_path = 'result.json'
 	result_folder = 'result-' + current_time + '/'
-	start_index = 179
+	start_index = 0
 	end_index = 2000
 
 	try:

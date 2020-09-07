@@ -5,7 +5,12 @@ import csv
 import json
 import time
 from pprint import pprint
+import os
 # import cssutils
+from datetime import datetime
+
+now = datetime.now()
+current_time = now.strftime("%y%m%d-%H%M%S")
 
 import requests
 import bs4
@@ -17,6 +22,7 @@ class Client:
 	ParseResult = {
 		'source_url': '',
 		'product_category': '',
+		'product_category_chain': '',
 		'product_name': '',
 		'product_code': '',
 		'product_price': '',
@@ -96,11 +102,15 @@ class Client:
 		last_item = None
 		last_item = category_tree[len(category_tree)-1] or ''
 		parent_item = category_tree[len(category_tree)-2] or ''
-		for last_item in category_tree:pass
+		product_category_chain = '['
+		for last_item in category_tree:
+			product_category_chain += '"%s",' % last_item.get_text().strip()
+		product_category_chain += ']'
 		# if last_item:
 		product_category = '{ "name": "%s", "url": "%s", "parent_name": "%s", "parent_url": "%s" }' % ( last_item.get_text().strip(), last_item.get('href'), parent_item.get_text().strip(), parent_item.get('href') )
 
 		self.ParseResult['product_category'] = product_category
+		self.ParseResult['product_category_chain'] = product_category_chain
 
 	# Парсинг названия товара
 	def parse_name(self, block):
@@ -239,9 +249,12 @@ class Client:
 if __name__ == '__main__':
 	source_file_path = 'product-urls.txt'
 	result_file_path = 'result.json'
-	result_folder = 'result/'
-	start_index = 1153
-	end_index = 1400
+	result_folder = 'result-'+ current_time + '/'
+	start_index = 0
+	end_index = 10000
+
+	if not os.path.isdir(result_folder):
+		os.mkdir(result_folder)
 
 	counter = 0
 	with open(source_file_path, 'r', encoding='utf-8') as f:
