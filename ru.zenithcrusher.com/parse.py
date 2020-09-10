@@ -11,6 +11,9 @@ from datetime import datetime
 
 import requests
 import bs4
+from selenium import webdriver
+chomedriver_path = 'chromedriver.exe'
+driver = webdriver.Chrome(chomedriver_path)
 
 
 
@@ -22,8 +25,6 @@ import bs4
 #! Описание
 #! Цена
 #! Характеристики HTML
-#!
-#!
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger('wb')
@@ -101,13 +102,17 @@ class Client:
 		# for block in container:
 		# 	self.parse_additional_images(block=block)
 
-		#! Вызов функции парсинга свойств товара
-		# container = soup.select('div.aa_dtovall')
-		# for block in container:
-		# 	self.parse_params(block=block)
+		#! Вызов функции парсинга свойств товара (с помощью selenuim)
+		driver.get(self.url)
+		try:
+			container = driver.find_element_by_css_selector('table.para_table').get_attribute('outerHTML')
+			if container:
+				self.parse_characteristics(block = driver.find_element_by_css_selector('table.para_table').get_attribute('outerHTML'))
+		except:
+			'Нет характеристик в отдельном табе...'
 
 		#! Вызов функции парсинга описания товара
-		container = soup.select('div.changeInfo')
+		container = soup.select('div.mainBox')
 		for block in container:
 			self.parse_description(block=block)
 
@@ -171,7 +176,7 @@ class Client:
 
 		try:
 				main_image = {
-					'url': re.sub(r'(https?:\/*)?static.zenithcrusher.com', '', main_image_url), 
+					'url': re.sub(r'\/*(https?:\/*)?static.zenithcrusher.com', '', main_image_url), 
 					'alt': image_block.get('alt') or '' 
 				}
 		except:
@@ -216,23 +221,42 @@ class Client:
 	def parse_description(self, block):
 
 		tabs = block.select('div.eachInfo')
-		tab1 = re.sub(r'\s+', ' ', tabs[0].decode_contents())
-		tab2 = re.sub(r'\s+', ' ', tabs[1].decode_contents())
-
+		if tabs:	
+			tab1 = re.sub(r'\s+', ' ', tabs[0].decode_contents()) or ''
+			tab2 = re.sub(r'\s+', ' ', tabs[1].decode_contents()) or ''
+		else:
+			tab1, tab2 = '', ''
+		
+		more_content = block.select_one('div.crushingPlant')
+		# print('MPORE CONTENT', more_content)
+		if more_content:
+			print('IF MORE CONTENT',type(more_content))
+			children = more_content.select('*')
+			# print('CHILDREN:', children)
+			for child in children:
+				# print(child.name)
+				if child.name == 'table':
+					tab2 += child.decode_contents()
+				else:
+					tab1 += child.decode_contents()
+	
 		images_img = re.findall(r'<img.*src\s*=\s*[\"\'](.*?)[\"\']', tab1 + tab2)
 		images_bg = re.findall(r'url\([\'\"\ ]?(.*?)[\'\"\ ]?\)', tab1 + tab2)
 		images_arr = images_bg + images_img
 		images = []
 		for image in images_arr:
 			images.append({ "url": image, "alt": self.ParseResult['product_name'] })
-		
 		product_detail_text = {
 			"description": tab1,
-			"characteristics": re.sub(r'<script.*?\/script>', '', tab2),
+			# "characteristics": re.sub(r'<script.*?\/script>', '', tab2),
 			"images": images 
 		}
 		self.ParseResult['product_detail_text'] = product_detail_text['description']
-		self.ParseResult['product_characteristics_html'] = product_detail_text['characteristics']
+		self.ParseResult['product_detail_text_images'] = product_detail_text['images']
+		self.ParseResult['product_characteristics_html'] = re.sub(r'\s+', ' ', tab2)
+	
+	def parse_characteristics(self, block):
+		self.ParseResult['product_characteristics_html'] = re.sub(r'\s+', ' ', block)
 
 	def parse_description_short(self, block):
 
@@ -267,8 +291,8 @@ if __name__ == '__main__':
 
 	result_file_path = 'result.json'
 	result_folder = 'result-' + current_time + '/'
-	start_index = 0
-	end_index = 150
+	start_index = 37
+	end_index = 38
 	try:
 		mkdir(result_folder)
 	except:

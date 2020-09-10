@@ -1,0 +1,26 @@
+{
+  "source_url": "https://ru.zenithcrusher.com/products/grinding/raw-mill.html",
+  "product_category_chain": [
+    {
+      "name": "ГЛАВНАЯ",
+      "url": "/"
+    },
+    {
+      "name": "Оборудования",
+      "url": "../"
+    },
+    {
+      "name": "МельничноеОборудование",
+      "url": "./"
+    }
+  ],
+  "product_name": "Сырьевая Мельница",
+  "pruduct_detail_image": "/d/file/images/products/grinding/raw.png",
+  "product_characteristics_html": "<table class=\"para_table\" id=\"para_raw_mill\"> <tbody><tr class=\"odd\"> <td rowspan=\"2\">Спецификация (Диа×Длина)</td> <td rowspan=\"2\">Скорость вращения (об/мин)</td> <td rowspan=\"2\">Входный размер (мм)</td> <td rowspan=\"2\">Производительность (т/ч)</td> <td rowspan=\"2\">Загрузка мельничного материала (т)</td> <td colspan=\"3\">Главный Мотор</td> <td colspan=\"2\">Главный Редуктор</td> <td rowspan=\"2\">Вес(т)</td> </tr> <tr class=\"even\"> <td>Модель</td> <td>Мощность(кВт)</td> <td>Скорость вращения (об/мин)</td> <td>Модель</td> <td>Передаточное число</td> </tr> <tr class=\"odd\"> <td>φ2.2×7</td> <td>21.4</td> <td>≤3</td> <td>20～25</td> <td>31</td> <td>YR148-8</td> <td>380</td> <td>740</td> <td>ZD70-9</td> <td>5</td> <td>49</td> </tr> <tr class=\"even\"> <td>φ2.2×13</td> <td>21.6</td> <td>≤25</td> <td>33～37</td> <td>58～60</td> <td>YR630-8/1180</td> <td>630</td> <td>740</td> <td>MBY630</td> <td>5.6</td> <td>53.4</td> </tr> <tr class=\"odd\"> <td>φ2.4×13</td> <td>21</td> <td>≤25</td> <td>45～50</td> <td>65～70</td> <td>YR800-8/1180</td> <td>800</td> <td>740</td> <td>JDX710</td> <td>5.6</td> <td>131</td> </tr> <tr class=\"even\"> <td>φ2.6×13</td> <td>20</td> <td>≤25</td> <td>45～46</td> <td>80t(max)</td> <td>YR1000-8/1180</td> <td>1000</td> <td>740</td> <td>TDX800</td> <td>6.3</td> <td>153</td> </tr> <tr class=\"odd\"> <td>φ6.2×6.4</td> <td>18.5</td> <td>≤25</td> <td>32～41</td> <td>86～90.5</td> <td>TDMK1000-36</td> <td>1000</td> <td>740</td> <td> </td> <td> </td> <td>134</td> </tr></tbody></table>",
+  "product_detail_text": " <p>1. Сильная адаптивность;<br/> 2. Непрерывное производство;<br/> 3. Крупная рациона дробления ;<br/> 4. Легко отрегулировать выходной размер продукта.</p> <p> </p> ",
+  "product_preview_text": "<p>Сырьевая мельница используется, в основном, пригодна для помола сырья и готовые продукции используется в цементном заводе. Он также подходит для измельчения различных горных пород и полезных ископаемых в металлургической, шахтной, химической и строительной промышленности. Кроме того, у него есть две формы помола: один находится в открытой форме, а другой в повторный закрытой форме, оснащен концентратором порошка. Он широко применяется во многих отраслях промышленности и удобной в эксплуатации.</p> <p> </p>",
+  "main_image": {
+    "url": "/d/file/images/products/grinding/raw.png",
+    "alt": ""
+  }
+}
