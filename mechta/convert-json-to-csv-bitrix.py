@@ -49,7 +49,7 @@ for i, filename in enumerate(files):
 			source_dict = json.load(fs)
 			target_dict = {}
 			try: 
-				target_dict['IE_XML_ID'] =  xml_id + '' + f'{i+1:04d}' 
+				target_dict['IE_XML_ID'] =  xml_id + '' + f'{i:04d}' 
 			except: # Внешний код (B_IBLOCK_ELEMENT.XML_ID) | 10 
 				target_dict['IE_XML_ID'] = ''
 			try: 
@@ -797,10 +797,9 @@ for i, filename in enumerate(files):
 			except:
 				target_dict['IC_GROUP2'] = ''
 
+			csv_line_list = list(value for value in target_dict.values())
 			if i == 0:
-				csv_line_list = target_dict.keys()
-			else:
-				csv_line_list = list(value for value in target_dict.values())
+				csv_line_list = target_dict.keys() + '\n' + csv_line_list
 			# print(csv_line_list)
 			csv_line = delimiter.join(csv_line_list)
 			ft.write(csv_line + '\n')
